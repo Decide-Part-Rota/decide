@@ -1,0 +1,17 @@
+.boton-personalizado {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 20px;
+    color: #333;
+    padding: 5px 20px;
+    background-color: #ffd27d;
+    border-color: #d8d8d8;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 35px;
+}
+
+/* Este es el estilo al poner el cursor encima del boton */
+.boton-personalizado:hover {
+    background-color: #000;
+}

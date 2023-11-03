@@ -7,14 +7,14 @@ from rest_framework.authtoken.models import Token
 
 from base import mods
 
-
 class AuthTestCase(APITestCase):
 
     def setUp(self):
         self.client = APIClient()
         mods.mock_query(self.client)
-        u = User(username='voter1')
+        u = User(username='voter1', email="voter1@gmail.com")
         u.set_password('123')
+
         u.save()
 
         u2 = User(username='admin')
@@ -128,3 +128,45 @@ class AuthTestCase(APITestCase):
             sorted(list(response.json().keys())),
             ['token', 'user_pk']
         )
+
+
+    # Tests anhadidos
+
+    def test_login_with_email(self):
+        data = {'username': 'voter1@gmail.com', 'password': '123'}
+        response = self.client.post('/authentication/login/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        token = response.json()
+        self.assertTrue(token.get('token'))
+
+    def test_login_with_email_fail(self):
+        data = {'username': 'voter1@gmail.com', 'password': '321'}
+        response = self.client.post('/authentication/login/', data, format='json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_logout_with_email(self):
+        data = {'username': 'voter1@gmail.com', 'password': '123'}
+        response = self.client.post('/authentication/login/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        token = response.json()
+        self.assertTrue(token.get('token'))
+
+        response = self.client.post('/authentication/logout/', token, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(Token.objects.filter(user__username='voter1').count(), 0)
+
+    def test_getuser_with_email(self):
+        data = {'username': 'voter1@gmail.com', 'password': '123'}
+        response = self.client.post('/authentication/login/', data, format='json')
+        self.assertEqual(response.status_code, 200)
+        token = response.json()
+
+        response = self.client.post('/authentication/getuser/', token, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        user = response.json()
+        self.assertEqual(user['id'], 7)
+        self.assertEqual(user['username'], 'voter1')

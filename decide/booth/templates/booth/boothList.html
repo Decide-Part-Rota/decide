@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="{% static "reactComponents/styles.css" %}" />
+    
+{% endblock %}
+
+
+{% block content %}
+    <input type="hidden" id="userdata" value={{userdata}}>
+    <textarea id="hide" style="display:none;">{{votacionesNoParticipa}}</textarea>
+
+{% endblock %}
+
+
+{% block extrabody %}
+    <div id="navbar"></div>
+    <div id="list"></div>
+   
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="{% static "reactComponents/navbar.js" %}"></script>
+    <script src="{% static "reactComponents/publicList.js" %}"></script>
+{% endblock %}

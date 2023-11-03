@@ -1,6 +1,8 @@
 from django.contrib.auth.backends import ModelBackend
 
 from base import mods
+from django.contrib.auth.models import User
+
 
 
 class AuthBackend(ModelBackend):
@@ -14,8 +16,15 @@ class AuthBackend(ModelBackend):
     '''
 
     def authenticate(self, request, username=None, password=None, **kwargs):
+
+
+        if '@' in username:
+            print('Este es el username' + User.objects.get(email=username).username)
+            username = User.objects.get(email=username).username
+
         u = super().authenticate(request, username=username,
                                  password=password, **kwargs)
+        print('Inciando sesion')
 
         # only doing this for the admin web interface
         if u and request.content_type == 'application/x-www-form-urlencoded':
@@ -27,3 +36,4 @@ class AuthBackend(ModelBackend):
             request.session['auth-token'] = token['token']
 
         return u
+

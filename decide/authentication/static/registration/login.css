@@ -1,0 +1,31 @@
+.prueba {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: auto;
+    width: 22vw;
+    background-color: white;
+    border-radius: 10px;
+    text-align: justify;
+}
+
+.buttons {
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 30px 10%;
+    background-color: #0b0c10;
+}
+
+.bar{
+    color: #edf0f1;
+}
+
+.Title{
+    text-align: center;
+}

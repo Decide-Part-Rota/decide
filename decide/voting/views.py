@@ -1,15 +1,41 @@
 import django_filters.rest_framework
 from django.conf import settings
 from django.utils import timezone
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from rest_framework import generics, status
 from rest_framework.response import Response
+from django.views.generic import TemplateView
+
+from census.models import Census
 
 from .models import Question, QuestionOption, Voting
 from .serializers import SimpleVotingSerializer, VotingSerializer
 from base.perms import UserIsStaff
 from base.models import Auth
 
+class VotacionList(TemplateView):
+    template_name = 'voting/listVoting.html'
+
+    #Método para mostrar un listado de todas las votaciones.
+    def mostrarVotacionesPublicas(request):
+        censo = Census.objects.filter(voter_id=request.user.id)
+        votaciones_participa = [c.voting_id for c in censo]
+        votaciones_no_participa = []
+        votaciones_participa_aux = []
+        votaciones = Voting.objects.filter(public=True)
+
+        for v in votaciones:
+            if v.id not in votaciones_participa:
+                votaciones_no_participa.append(v)
+            else:
+                votaciones_participa_aux.append(v)
+
+        data={
+            'votaciones_no_participa': votaciones_no_participa,
+            'votaciones_participa': votaciones_participa_aux
+        }
+
+        return render(request, 'voting/listVoting.html', data)
 
 class VotingView(generics.ListCreateAPIView):
     queryset = Voting.objects.all()

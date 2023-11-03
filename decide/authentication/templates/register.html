@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% load i18n static %}
+
+{% block extrahead %}
+
+<link type="text/css" rel="stylesheet" href="{% static 'registration/style.css' %}" />
+<link type="text/css" rel="stylesheet" href="{% static 'registration/register.css' %}" />
+
+{% endblock %}
+
+
+{% block content %}
+
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Register</title>
+
+</head>
+
+<header>
+    <h1 class="bar">¡Decide!</h1>
+</header>
+
+<body style="background-color: #1f2833;">
+
+    <br><br>
+
+    <div class="registerForm">
+        <br>
+    <div id="title"></div>
+
+    <div class="d-flex justify-content-center">
+
+      <form method="POST" style="margin: 10;">
+            {%csrf_token%}
+            <table>
+                {{form.as_table}}
+            </table>
+
+            <br>
+
+            <div class="buttons">
+
+            <button id="id_button" type="submit" class="btn btn-outline-dark">Sign Up</button>
+
+            <br><br>
+
+            <a href="{% provider_login_url 'google' next='/authentication/completeForm/' %}">
+                <button type="button" class="login-with-google-btn" >
+                    Login with Google
+                </button>
+            </a>
+            <br><br>
+            </div>
+      </form>
+    </div>
+    </div>
+
+</body>
+
+{% endblock %}
+
+
+{% block extrabody %}
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script defer src="{% static "reactComponents/registerTitle.js" %}"></script>
+
+{% endblock %}

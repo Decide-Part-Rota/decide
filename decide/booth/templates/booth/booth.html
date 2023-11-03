@@ -4,13 +4,18 @@
 {% block extrahead %}
     <link type="text/css" rel="stylesheet"
          href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="{% static "reactComponents/styles.css" %}" />
     <link type="text/css" rel="stylesheet"
          href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
     <link type="text/css" rel="stylesheet" href="{% static "booth/style.css" %}" />
 {% endblock %}
 
 {% block content %}
-    <div id="app-booth">
+    <textarea id="hide" style="display:none;">{{voting}}</textarea>
+    <style>
+
+    </style>
+    <div id="app-booth" >
         <!-- Navbar -->
         <b-navbar type="dark" variant="secondary">
             <b-navbar-brand tag="h1">Decide</b-navbar-brand>
@@ -20,17 +25,33 @@
                     </b-nav-item>
                 </b-navbar-nav>
         </b-navbar>
-
+        
         <b-alert :variant="alertLvl" dismissible v-model="alertShow">
             [[ alertMsg ]]
         </b-alert>
-
-        <div class="voting">
-            <h1>[[ voting.id ]] - [[ voting.name ]]</h1>
+        <!--<div id="contenedor" :message="voting.name">        </div>-->
+        <div class="big-container" style="display:flex; margin:0;   padding:0;   min-height: 100vh;   background: #444;   justify-content: center;   align-items: center;   font-family: arial;">
+        <div id="caja" ></div>
+        <div id="hueco" style = "margin-left: 100px; margin-right: 100px;"> </div>
+        <div class="voting" style="background: #444;
+        width:300px;
+        height: 300px;  
+        position: relative;   
+        display: flex;
+        justify-content: center;
+        justify-content: center;
+        align-content:center;
+        align-items: center;
+        z-index: 1; 
+        font-family: arial; 
+        background: #333;">
+             
+            <!-- <h1 id="nombre">[[ voting.id ]] - [[ voting.name ]]</h1>-->
 
             <!-- Register -->
             <b-form @submit="onSubmitLogin" v-if="signup">
-                <b-form-group label="{% trans "Username" %}" label-for="username">
+                <b-form-group label="{% trans "Username" %}" label-for="username" 
+                style="color: rgb(120, 120, 120);font-size: x-large; font-style: oblique;">
                     <b-form-input
                         id="username"
                         type="text"
@@ -38,7 +59,8 @@
                         autocomplete="username"
                         required />
                 </b-form-group>
-                <b-form-group label="{% trans "Password" %}" label-for="password">
+                <b-form-group label="{% trans "Password" %}" label-for="password"
+                style="color: rgb(120, 120, 120);font-size: x-large; font-style: oblique;">
                     <b-form-input
                         id="password"
                         type="password"
@@ -46,27 +68,37 @@
                         v-model="form.password"
                         required />
                 </b-form-group>
-                <b-button type="submit" variant="primary">{% trans "Login" %}</b-button>
+                <b-button type="submit" variant="primary" 
+                style = "display: flex; 
+                background-color: #444;">{% trans "Login" %}</b-button>
             </b-form>
 
+
             <!-- Voting -->
-            <div v-if="!signup">
-                <h2>[[ voting.question.desc ]]</h2>
-                <b-form-group v-for="opt in voting.question.options" :key="opt.number">
+            <div v-if="!signup" style="display: grid;">
+                 <!--<h2>[[ voting.question.desc ]]</h2>-->
+                <b-form-group v-for="opt in voting.question.options" :key="opt.number" style="display: block;white-space: pre-line;">
                     <b-form-radio v-model="selected"
                                   :id="'q' + opt.number"
                                   name="question"
-                                  :value="opt.number">
+                                  :value="opt.number"
+                                  style="color: rgb(120, 120, 120); font-size: large;">
                         [[ opt.option ]]
                     </b-form-radio>
                 </b-form-group>
-                <b-button type="button" variant="primary" v-on:click="decideSend">
+                <b-button type="button" variant="primary" v-on:click="decideSend" style="display: flex;
+                background-color: #444;">
                     {% trans "Vote" %}
                 </b-button>
             </div>
-        </div>
+    </div>
+</div>
+
+
     </div>
 {% endblock %}
+
+
 
 {% block extrabody %}
     <!-- needed to generate big random -->
@@ -81,7 +113,7 @@
     <script src="{% static "crypto/elgamal.js" %}"></script>
 
     <!-- Vuejs -->
-    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue@2.7.3"></script>
     <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
     <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 
@@ -209,5 +241,12 @@
             },
         })
     </script>
+
+
+
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="{% static "crypto/contenedor.js" %}"></script>
 </body>
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <link type="text/css" rel="stylesheet" href="{% static "reactComponents/styles.css" %}" />
+    <link type="text/css" rel="stylesheet" href="{% static "registration/welcome.css" %}" />
+    <title>Welcome</title>
+{% endblock %}
+
+{% block content %}
+<div id="navbar"></div>
+<br><br>
+<div id="welcome"></div>
+
+{% if message %}
+<p>Error: {{message}}</p>
+{% endif %}
+{% endblock %}
+
+{% block extrabody %}
+    <input type="hidden" id="userdata" value={{userdata}}>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script defer src="{% static "reactComponents/navbar.js" %}"></script>
+    <script defer src="{% static "reactComponents/welcome.js" %}"></script>
+{% endblock %}

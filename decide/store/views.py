@@ -10,7 +10,6 @@ from .serializers import VoteSerializer
 from base import mods
 from base.perms import UserIsStaff
 
-
 class StoreView(generics.ListAPIView):
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
@@ -60,6 +59,32 @@ class StoreView(generics.ListAPIView):
 
         a = vote.get("a")
         b = vote.get("b")
+
+        defs = { "a": a, "b": b }
+        v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid,
+                                          defaults=defs)
+        v.a = a
+        v.b = b
+
+        v.save()
+
+        return  Response({})
+
+
+class StoreBotView(generics.ListAPIView):
+    queryset = Vote.objects.all()
+    serializer_class = VoteSerializer
+    filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
+    filter_fields = ('voting_id', 'voter_id')
+
+    def post(self, request):
+        vid = request.data.get('voting')
+        uid = request.data.get('voter')
+        a = request.data.get('a')
+        b = request.data.get('b')
+
+        if not vid or not uid or not a or not b:
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
         defs = { "a": a, "b": b }
         v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid,

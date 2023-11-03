@@ -39,6 +39,8 @@ class Voting(models.Model):
     pub_key = models.OneToOneField(Key, related_name='voting', blank=True, null=True, on_delete=models.SET_NULL)
     auths = models.ManyToManyField(Auth, related_name='votings')
 
+    public = models.NullBooleanField(null=True)
+
     tally = JSONField(blank=True, null=True)
     postproc = JSONField(blank=True, null=True)
 

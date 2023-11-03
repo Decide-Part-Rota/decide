@@ -1,0 +1,24 @@
+.h2Welcome {
+  text-align: center;
+}
+
+.welcome {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 20vw;
+  border-radius: 10px;
+  text-align: center;
+  background-color: white;
+  margin: auto;
+}
+
+.pWelcome, .h2Welcome {
+  color: black;
+}
+
+.pWelcome {
+  text-align: justify;
+  margin-left: 25px;
+}

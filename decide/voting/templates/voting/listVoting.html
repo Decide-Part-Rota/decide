@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+{% load i18n static %}
+
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet"
+         href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet"
+         href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <link type="text/css" rel="stylesheet" href="{% static "voting/style.css" %}" />
+{% endblock %}
+
+
+{% block content %}
+        
+    
+
+    <body>
+        <h2 style="text-align:center">Listado de Votaciones Públicas</h2>
+        
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Visibility</td>
+                    <td>Acciones</td>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% if votaciones_no_participa %}
+                    <h4 style="text-align:center">Listado de Votaciones en la que no participa</h4>
+    
+                    <!-- Cojo la colección votaciones que le paso en views.py --> 
+                    {% for votacion in votaciones_no_participa %} 
+    
+                        <tr>
+    
+                            <td>{{votacion.id}}</td>
+                            <td>{{votacion.name}}</td>
+                            <td>{{votacion.desc}}</td>
+                            <td>{{votacion.public}}</td>
+
+                            <td>
+
+                                <a class="boton-personalizado" href="/census/addUser/{{votacion.id}}">
+
+                                    Join census
+
+                                </a>
+
+                            </td>
+    
+                        </tr>
+                    
+                    {% endfor %}
+
+                    
+                {% else %}
+                    
+                <h4 style="text-align:center">Listado de Votaciones que no participa</h4>
+                        
+                {% endif %}
+                        
+            </tbody>
+
+        </table>
+
+        <table class="table table-bordered">
+
+            <thead>
+
+                <tr>
+
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Visibility</td>
+                    <td>Acciones</td>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% if votaciones_participa %}
+                    <h4 style="text-align:center">Listado de Votaciones en la que participa</h4>
+    
+                    <!-- Cojo la colección votaciones que le paso en views.py --> 
+                    {% for votacion in votaciones_participa %} 
+    
+                        <tr>
+    
+                            <td>{{votacion.id}}</td>
+                            <td>{{votacion.name}}</td>
+                            <td>{{votacion.desc}}</td>
+                            <td>{{votacion.public}}</td>
+
+                            <td>
+
+                                <a class="boton-personalizado" href="/booth/{{votacion.id}}">
+
+                                    Go Vote
+
+                                </a>
+
+                                <a class="boton-personalizado" href="/census/deleteUser/{{votacion.id}}">
+
+                                    Quit Census
+
+                                </a>
+
+                            </td>
+    
+                        </tr>
+                    
+                    {% endfor %}
+
+                    
+                {% else %}
+                    
+                <h4 style="text-align:center">Listado de Votaciones que participa</h4>
+                        
+                {% endif %}
+                        
+            </tbody>
+
+        </table> 
+                    
+    </body>
+
+{% endblock %}
